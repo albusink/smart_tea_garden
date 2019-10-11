@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"D:\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\Documents\GitHub\LoRa_M0\LoRa_M0_1\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.general.xcl" --backend -f "E:\Documents\GitHub\LoRa_M0\LoRa_M0_1\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.driver.xcl" 
+"D:\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\Documents\GitHub\smart_tea_garden\LORA\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.general.xcl" --backend -f "E:\Documents\GitHub\smart_tea_garden\LORA\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\Documents\GitHub\LoRa_M0\LoRa_M0_1\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.general.xcl" "--debug_file=%~1" --backend -f "E:\Documents\GitHub\LoRa_M0\LoRa_M0_1\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.driver.xcl" 
+"D:\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "E:\Documents\GitHub\smart_tea_garden\LORA\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.general.xcl" "--debug_file=%~1" --backend -f "E:\Documents\GitHub\smart_tea_garden\LORA\LoRa_M0_1\EWARM\settings\LoRa_M0_1.MASTER.driver.xcl" 
 
 @echo off 
 :end

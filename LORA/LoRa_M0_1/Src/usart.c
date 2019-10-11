@@ -26,6 +26,9 @@
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
+uint8_t pRxData[BUFSIZE];
+uint8_t pRxDataTemp;
+uint8_t UART1_RX_STA;
 
 /* USART1 init function */
 
@@ -117,9 +120,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     /* USART2 interrupt Init */
     HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(USART2_IRQn);
-  /* USER CODE BEGIN USART2_MspInit 1 */
+	
 
-  /* USER CODE END USART2_MspInit 1 */
   }
 }
 
@@ -167,6 +169,26 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+void HAL_UART_RxCpltCallback  ( UART_HandleTypeDef *  huart ) 
+{
+	//uint8_t i = 0;//数据的位数
+	if(huart -> Instance == USART2)
+	{
+		//pRxData[i++] = pRxDataTemp;
+		printf("进入了USART2的回调函数\r\n");
+		printf("--%s--\r\n", pRxData);
+	  HAL_UART_Receive_IT( &huart2, pRxData, 10);
+		//printf("--%s--\r\n", pRxData);
+/*		if(pRxDataTemp != '\n')
+		{
+			printf("-a-\r\n");
+			HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
+		}
+		else
+			UART1_RX_STA = 1;
+*/	
+	}
+}
 
 /* USER CODE END 1 */
 

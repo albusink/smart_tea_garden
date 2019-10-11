@@ -58,7 +58,7 @@
 /* External variables --------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
 /* USER CODE BEGIN EV */
-
+extern uint8_t pRxDataTemp;
 /* USER CODE END EV */
 
 /******************************************************************************/

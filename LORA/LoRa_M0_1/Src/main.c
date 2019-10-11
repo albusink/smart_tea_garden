@@ -35,6 +35,9 @@
 #include "sx1276-Hal.h"
 #include "sx1276-LoRa.h"
 #include "sx1276-LoRaMisc.h"
+
+//esp8266
+#include "esp8266.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -68,7 +71,6 @@ uint8_t Cmd1[] = "1";
 uint8_t Cmd1_R[] = "2"; 
 
 
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,9 +82,6 @@ void LED_R(void);//PA0
 void LED_G(void);//PA1
 void LED_B(void);//PB12
 void LED_POWER(void);//PA14
-void Task(void);
-
-/* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
@@ -93,6 +92,9 @@ void Task(void);
   * @brief  The application entry point.
   * @retval int
   */
+void Task(void);
+
+/* USER CODE END PFP */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -122,9 +124,9 @@ int main(void)
   MX_SPI1_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  
-  
-  
+	
+//	HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
+
   /* USER CODE BEGIN 2 */
   LED_POWER();
   
@@ -143,7 +145,7 @@ int main(void)
   Radio = RadioDriverInit();
   Radio->Init();
 	
-	printf("%d%d%d%d\r\n", RF_IDLE, RF_BUSY, RF_RX_DONE, RF_TX_DONE);
+	//printf("%d%d%d%d\r\n", RF_IDLE, RF_BUSY, RF_RX_DONE, RF_TX_DONE);
 
   /* USER CODE END 2 */
 #ifdef MASTER
@@ -156,6 +158,18 @@ int main(void)
 #endif
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	
+	
+	
+	
+	//printf("---%d---\r\n",esp_init());
+	printf("-1-\r\n");
+	HAL_UART_Transmit(&huart2, "AT\r\n", strlen("AT\r\n"), 100);
+	HAL_UART_Receive_IT( &huart2, pRxData, 10);
+	printf("-2-\r\n");
+	
+	
+	
   while (1)
   {
     /* USER CODE END WHILE */
@@ -305,7 +319,7 @@ void LED_POWER(void)//PA14
 //重定向串口
 int fputc(int c, FILE *stream)
 {
-  while(!(USART1->SR & (1 << 7))){};//等待数据发送完成
+  while(!(USART1->SR & (1 << 7)));//等待数据发送完成
   USART1->DR = c;//将c赋给串口1的DR寄存器，即重定向到串口，也可以是其他的接口
   return c;
 }

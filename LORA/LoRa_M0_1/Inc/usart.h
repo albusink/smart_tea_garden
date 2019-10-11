@@ -26,19 +26,28 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/* USER CODE BEGIN Includes */
 
+/* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 
+
 /* USER CODE BEGIN Private defines */
 
+
+#define BUFSIZE 128
+extern uint8_t pRxData[BUFSIZE];
+extern uint8_t UART1_RX_STA;
+extern uint8_t pRxDataTemp;
 /* USER CODE END Private defines */
 
 void MX_USART1_UART_Init(void);
 void MX_USART2_UART_Init(void);
+
 
 /* USER CODE BEGIN Prototypes */
 
