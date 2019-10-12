@@ -100,6 +100,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
   
   uint8_t RegVersion = 0;
+	uint8_t esp_return = 0;
   /* USER CODE END 1 */
   
 
@@ -162,13 +163,9 @@ int main(void)
 	
 	
 	
-	//printf("---%d---\r\n",esp_init());
-	printf("-1-\r\n");
-	HAL_UART_Transmit(&huart2, "AT\r\n", strlen("AT\r\n"), 100);
-	HAL_UART_Receive_IT( &huart2, pRxData, 10);
-	printf("-2-\r\n");
-	
-	
+	HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1);
+	esp_return = esp_init();
+	printf("return : --%d--\r\n",esp_return);
 	
   while (1)
   {

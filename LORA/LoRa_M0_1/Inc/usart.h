@@ -41,7 +41,7 @@ extern UART_HandleTypeDef huart2;
 
 #define BUFSIZE 128
 extern uint8_t pRxData[BUFSIZE];
-extern uint8_t UART1_RX_STA;
+extern uint8_t UART2_RX_STA;
 extern uint8_t pRxDataTemp;
 /* USER CODE END Private defines */
 

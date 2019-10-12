@@ -20,15 +20,17 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
 
-/* USER CODE BEGIN 0 */
 
+/* USER CODE BEGIN 0 */
+#include "esp8266.h"
+		
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 uint8_t pRxData[BUFSIZE];
 uint8_t pRxDataTemp;
-uint8_t UART1_RX_STA;
+uint8_t UART2_RX_STA;
 
 /* USART1 init function */
 
@@ -169,24 +171,44 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+
+
 void HAL_UART_RxCpltCallback  ( UART_HandleTypeDef *  huart ) 
 {
-	//uint8_t i = 0;//数据的位数
+	static uint8_t i = 0;//数据的位数
+	static uint8_t flag = 0;
 	if(huart -> Instance == USART2)
 	{
-		//pRxData[i++] = pRxDataTemp;
-		printf("进入了USART2的回调函数\r\n");
-		printf("--%s--\r\n", pRxData);
-	  HAL_UART_Receive_IT( &huart2, pRxData, 10);
-		//printf("--%s--\r\n", pRxData);
-/*		if(pRxDataTemp != '\n')
+		pRxData[i++] = pRxDataTemp;
+//		printf("enter USART2's Callback\r\n");
+//		printf("%dth pRxData : --%s--\r\n", i, pRxData);
+	  //HAL_UART_Receive_IT(&huart2, pRxData, 10);
+		if(pRxDataTemp == '\n')//要等读到num个回车
 		{
-			printf("-a-\r\n");
-			HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
+			flag++;
+			
+//		  printf("flag: %d \r\n", flag);
+			if(flag < num)
+			{
+//				UART2_RX_STA++;
+//				printf("1\r\n");
+//				printf("open again -- flag : %d --num : %d \r\n", flag, num);
+				HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
+			}
+			else//第num个回车时停下
+			{
+				printf("get\r\n");
+				pRxData[i] = '\0';//添加字符串结尾标志
+				UART2_RX_STA = 1;
+				flag = 1;//置位
+				i = 0;
+			}
 		}
 		else
-			UART1_RX_STA = 1;
-*/	
+		{
+//			printf("1\r\n");
+			HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
+		}
 	}
 }
 
