@@ -30,7 +30,7 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 uint8_t pRxData[BUFSIZE];
 uint8_t pRxDataTemp;
-uint8_t UART2_RX_STA;
+uint8_t UART2_Rx_Index = 0;
 
 /* USART1 init function */
 
@@ -175,42 +175,50 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
 void HAL_UART_RxCpltCallback  ( UART_HandleTypeDef *  huart ) 
 {
-	static uint8_t i = 0;//数据的位数
-	static uint8_t flag = 0;
+	//使用数据帧 + 空闲中断的方式？？？？？？
+	//HAL_UART_GetState
+	//UART_FLAG_IDLE    帧数据中断标志位  1有效：表示收到了一帧数据（一帧就是一次发送过来的数据
+	//UART_FLAG_RXNE    字节数据中断标志位  1有效
+	
 	if(huart -> Instance == USART2)
 	{
-		pRxData[i++] = pRxDataTemp;
-//		printf("enter USART2's Callback\r\n");
-//		printf("%dth pRxData : --%s--\r\n", i, pRxData);
-	  //HAL_UART_Receive_IT(&huart2, pRxData, 10);
-		if(pRxDataTemp == '\n')//要等读到num个回车
-		{
-			flag++;
-			
-//		  printf("flag: %d \r\n", flag);
-			if(flag < num)
-			{
-//				UART2_RX_STA++;
-//				printf("1\r\n");
-//				printf("open again -- flag : %d --num : %d \r\n", flag, num);
-				HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
-			}
-			else//第num个回车时停下
-			{
-				printf("get\r\n");
-				pRxData[i] = '\0';//添加字符串结尾标志
-				UART2_RX_STA = 1;
-				flag = 1;//置位
-				i = 0;
-			}
-		}
-		else
-		{
-//			printf("1\r\n");
-			HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1); 
-		}
+		//HAL_UART_GetState(&huart);//和标准库的还是有差别的
+	
 	}
+/*	if(huart -> Instance == USART2)
+	{
+		pRxData[UART2_Rx_Index++] = pRxDataTemp;
+		HAL_UART_Receive_IT(&huart2, &pRxDataTemp, 1);//就一直接受嘛，一直到没有数据了。
+	}
+*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* USER CODE END 1 */
 
